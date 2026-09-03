@@ -1,0 +1,2 @@
+# DSL-Lab
+Una entidad financiera desea desarrollar un pequeño sistema para evaluar solicitudes de crédito. Actualmente, las reglas de negocio están implementadas directamente mediante código Java y Python. Sin embargo, el área de negocio considera que en el futuro las reglas podrían cambiar con frecuencia y desea que estas reglas puedan representarse mediante un lenguaje especializado para decisiones de crédito.
