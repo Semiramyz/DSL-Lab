@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102a43">
+  <title>CreditRules | Evaluador de crédito</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="CreditRules inicio">
+      <span class="brand-mark">CR</span>
+      <span><strong>CreditRules</strong><small>DSL LAB / 2026-2</small></span>
+    </a>
+    <span class="system-status"><i></i> Motor AST activo</span>
+  </header>
+
+  <main class="shell">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">DECISIONES DE CRÉDITO</p>
+        <h1>Evalúa una solicitud<br><em>con reglas explicables.</em></h1>
+        <p class="lede">Cada decisión se construye y ejecuta como un árbol de sintaxis abstracta. Ajusta los datos y observa el razonamiento detrás del resultado.</p>
+      </div>
+      <div class="intro-stamp"><span>AST</span><b>07</b><small>reglas activas</small></div>
+    </section>
+
+    <section class="workspace">
+      <div class="panel application-panel">
+        <div class="panel-heading">
+          <div><span class="step">01</span><div><h2>Datos de la solicitud</h2><p>Completa las variables del contexto</p></div></div>
+          <button class="ghost-button" id="fillExample" type="button">Cargar ejemplo</button>
+        </div>
+        <form id="applicationForm">
+          <div class="field-grid">
+            <label><span>Edad <b>años</b></span><input name="edad" type="number" min="0" value="25" required></label>
+            <label><span>Puntaje crediticio <b>0 - 1000</b></span><input name="puntaje" type="number" min="0" max="1000" value="750" required></label>
+            <label class="wide"><span>Ingresos mensuales <b>COP</b></span><div class="input-prefix"><span>$</span><input name="ingresos" type="number" min="0" step="1000" value="5000000" required></div></label>
+            <label><span>Antigüedad laboral <b>meses</b></span><input name="antiguedadLaboral" type="number" min="0" value="24" required></label>
+            <label><span>Moras históricas <b>cantidad</b></span><input name="morasHistoricas" type="number" min="0" value="0" required></label>
+            <label><span>Cuota inicial <b>COP</b></span><div class="input-prefix"><span>$</span><input name="cuotaInicial" type="number" min="0" step="1000" value="1000000" required></div></label>
+            <label><span>Monto solicitado <b>COP</b></span><div class="input-prefix"><span>$</span><input name="montoSolicitado" type="number" min="0" step="1000" value="5000000" required></div></label>
+          </div>
+          <button class="primary-button" type="submit"><span>Evaluar solicitud</span><span class="arrow">→</span></button>
+        </form>
+      </div>
+
+      <div class="panel decision-panel" id="decisionPanel" aria-live="polite">
+        <div class="panel-heading"><div><span class="step">02</span><div><h2>Decisión</h2><p>Resultado de las reglas</p></div></div><span class="live-dot">EN VIVO</span></div>
+        <div class="decision-empty" id="decisionEmpty"><span class="empty-icon">◌</span><strong>Esperando una solicitud</strong><p>Ingresa los datos y ejecuta el motor para ver la decisión.</p></div>
+        <div class="decision-content hidden" id="decisionContent">
+          <div class="decision-hero"><div><span class="decision-label">CRÉDITO</span><strong id="approvalValue">APROBADO</strong></div><span class="approval-icon" id="approvalIcon">✓</span></div>
+          <div class="result-grid" id="resultGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="lower-grid">
+      <div class="panel rules-panel">
+        <div class="panel-heading"><div><span class="step">03</span><div><h2>Reglas del dominio</h2><p>Haz clic para aplicar o quitar una regla</p></div></div><span class="rule-count" id="ruleCount">0 / 3</span></div>
+        <div class="rule-list" id="ruleList"></div>
+      </div>
+      <div class="panel tests-panel">
+        <div class="panel-heading"><div><span class="step">04</span><div><h2>Casos obligatorios</h2><p>Pruebas del enunciado</p></div></div><button class="icon-button" id="runTests" title="Ejecutar pruebas" type="button">↻</button></div>
+        <div id="testSummary" class="test-summary"><span class="empty-icon">▣</span><strong>Pruebas listas</strong><p>Ejecuta los cinco casos requeridos y selecciona uno para inspeccionar su DSL.</p></div>
+        <div class="test-list hidden" id="testList"></div>
+      </div>
+    </section>
+
+    <section class="panel editor-panel">
+      <div class="panel-heading"><div><span class="step">05</span><div><h2>Constructor de reglas</h2><p>Crea una regla o modifica la seleccionada</p></div></div><button class="ghost-button" id="newRule" type="button">+ Nueva regla</button></div>
+      <form id="ruleForm" class="rule-editor">
+        <label><span>Nombre de la regla</span><input name="name" placeholder="ej. nivelEndeudamiento" required></label>
+        <label><span>Variable de condición</span><input name="conditionVariable" placeholder="ingresos" required></label>
+        <label><span>Operador</span><select name="operator"><option value=">=">Mayor o igual (≥)</option><option value="<=">Menor o igual (≤)</option><option value="==">Igual (==)</option></select></label>
+        <label><span>Valor de condición</span><input name="conditionValue" placeholder="3000000" required></label>
+        <label><span>Tipo del valor</span><select name="conditionValueType"><option value="number">Número</option><option value="text">Texto</option></select></label>
+        <label><span>Variable de resultado</span><input name="actionVariable" placeholder="nivel" required></label>
+        <label><span>Resultado</span><input name="actionValue" placeholder="ALTO" required></label>
+        <label><span>Tipo del resultado</span><select name="actionValueType"><option value="text">Texto</option><option value="boolean">Booleano</option><option value="number">Número</option></select></label>
+        <div class="editor-actions"><span id="editorMessage" role="status"></span><button class="primary-button" type="submit"><span>Guardar regla en el DSL</span><span class="arrow">→</span></button></div>
+      </form>
+    </section>
+
+    <section class="panel ast-panel">
+      <div class="panel-heading"><div><span class="step">06</span><div><h2>Inspector AST</h2><p>Regla o caso seleccionado</p></div></div><a class="download-link" id="downloadDot" href="#" download>Descargar .dot ↓</a></div>
+      <div class="ast-tabs" id="astTabs"></div>
+      <div class="case-inspector"><span>CASOS OBLIGATORIOS</span><div id="caseTabs"></div></div>
+      <div class="ast-view"><div class="graph-toolbar"><div><span id="graphTitle">Árbol de decisión</span><code id="graphDsl">Selecciona una regla</code></div><span class="graph-hint">desplaza para explorar</span></div><div class="graph-scroll"><svg id="astGraph" role="img" aria-label="Representación gráfica del AST"></svg></div><div class="ast-legend"><span><i class="legend-if"></i> condición</span><span><i class="legend-value"></i> valor</span><span><i class="legend-var"></i> variable</span><span><i class="legend-action"></i> acción</span></div></div>
+    </section>
+
+    <footer><span>CreditRules DSL</span><span>AST · Context · Reglas de crédito</span><span>Implementación académica en C#</span></footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>

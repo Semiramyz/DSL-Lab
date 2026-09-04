@@ -1,0 +1,30 @@
+digraph AST {
+  node [shape=box, fontname=Arial];
+  n0 [label="IfStatement\nSI...ENTONCES"];
+  n1 [label="And\nY"];
+  n0 -> n1;
+  n2 [label="GreaterThanOrEqual\n>="];
+  n1 -> n2;
+  n3 [label="Variable\nedad"];
+  n2 -> n3;
+  n4 [label="Literal\n18"];
+  n2 -> n4;
+  n5 [label="And\nY"];
+  n1 -> n5;
+  n6 [label="GreaterThanOrEqual\n>="];
+  n5 -> n6;
+  n7 [label="Variable\ningresos"];
+  n6 -> n7;
+  n8 [label="Literal\n3000000"];
+  n6 -> n8;
+  n9 [label="GreaterThanOrEqual\n>="];
+  n5 -> n9;
+  n10 [label="Variable\npuntaje"];
+  n9 -> n10;
+  n11 [label="Literal\n700"];
+  n9 -> n11;
+  n12 [label="Assignment\ncreditoAprobado"];
+  n0 -> n12;
+  n13 [label="Literal\ntrue"];
+  n12 -> n13;
+}

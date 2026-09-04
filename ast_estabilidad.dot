@@ -1,0 +1,14 @@
+digraph AST {
+  node [shape=box, fontname=Arial];
+  n0 [label="IfStatement\nSI...ENTONCES"];
+  n1 [label="GreaterThanOrEqual\n>="];
+  n0 -> n1;
+  n2 [label="Variable\nantiguedadLaboral"];
+  n1 -> n2;
+  n3 [label="Literal\n12"];
+  n1 -> n3;
+  n4 [label="Assignment\nestabilidad"];
+  n0 -> n4;
+  n5 [label="Literal\n"ALTA""];
+  n4 -> n5;
+}
